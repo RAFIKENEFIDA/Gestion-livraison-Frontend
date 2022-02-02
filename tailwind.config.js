@@ -1,9 +1,15 @@
 module.exports = {
   content: [
-    "./src/**/*.{js,jsx,ts,tsx}",
-  ],
+    "./src/**/*.{html,js}",
+    // "./node_modules/@themesberg/flowbite/**/*.js"
+],
   theme: {
     extend: {},
   },
-  plugins: [],
+  plugins: [
+    require('daisyui'),
+    require('@themesberg/flowbite/plugin')
+
+
+  ],
 }

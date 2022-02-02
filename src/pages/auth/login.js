@@ -17,9 +17,11 @@ import LoginFetch from '../../api/login';
 import { useSelector,useDispatch } from "react-redux";
 import {setUser} from '../../redux/user-slice';
 import axios from 'axios';
-
-
-
+import {
+ 
+  useNavigate ,
+ 
+} from "react-router-dom";
 
 const useStyles = makeStyles({
 
@@ -128,6 +130,8 @@ const useStyles = makeStyles({
     const[existErr,setexistErr]=useState(true);
     const [acteur, setActeur] = useState("");
     let param = useParams();
+    let navigate = useNavigate();
+
     // const user = useSelector((state) => state.user.user)
     const dispatch = useDispatch()
 
@@ -156,15 +160,18 @@ const useStyles = makeStyles({
       let url="http://localhost:3000/"+param.acteur+'/signin';
       let res=  await  axios.post(url,  body );
 
-      if(res.status==200){
+      if(res.status===202){
+        console.log("dazzz")
           console.log(res.data);
           dispatch(setUser(res.data.admin));
           setErr("");
           setexistErr(false);
-          localStorage.setItem("token",res.data.admin.token);
-      } else {
-        console.log(res.data.message);
-      }
+          localStorage.setItem("token",res.data.token)
+          navigate('/dashboard/admin');      
+        
+      } else if (res.status===203) {
+        setexistErr(true);
+       }
 
       if(existErr==true){
         setErr(res.data.message)
